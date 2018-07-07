@@ -1,6 +1,7 @@
 package agendajarroba;
 
 import Persona.Persona;
+import data.Conexion;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,6 +34,7 @@ public class VistaController implements Initializable {
     @FXML private TextField apellidoTF;
     @FXML private TextField edadTF;
     @FXML private TextField telefonoTF;
+
     
     // Declaramos la tabla y las columnas
     @FXML private TableView<Persona> tablaPersonas;
@@ -40,6 +42,7 @@ public class VistaController implements Initializable {
     @FXML private TableColumn apellidoCL;
     @FXML private TableColumn edadCL;
     @FXML private TableColumn telefonoCL;
+
     ObservableList<Persona> personas;
     
     private int posicionPersonaEnTabla;
@@ -54,6 +57,7 @@ public class VistaController implements Initializable {
         apellidoTF.setText("");
         edadTF.setText("");
         telefonoTF.setText("");
+      
         modificarBT.setDisable(true);
         eliminarBT.setDisable(true);
         aniadirBT.setDisable(false);
@@ -68,9 +72,11 @@ public class VistaController implements Initializable {
         Persona persona = new Persona();
         persona.nombre.set(nombreTF.getText());
         persona.apellido.set(apellidoTF.getText());
-        persona.edad.set(Integer.parseInt(edadTF.getText()));
-        persona.telefono.set(telefonoTF.getText());
+       // persona.edad.set(Integer.parseInt(edadTF.getText()));
+        //persona.telefono.set(telefonoTF.getText());
+        System.out.println("AÑADIENDO A BASE DE DATOS...");
         personas.add(persona);
+        
     }
 
     /**
@@ -79,11 +85,13 @@ public class VistaController implements Initializable {
      * @param event
      */
     @FXML private void modificar(ActionEvent event) {
+        System.out.println("presionado");
         Persona persona = new Persona();
         persona.nombre.set(nombreTF.getText());
         persona.apellido.set(apellidoTF.getText());
         persona.edad.set(Integer.parseInt(edadTF.getText()));
         persona.telefono.set(telefonoTF.getText());
+
         personas.set(posicionPersonaEnTabla, persona);
     }
 
@@ -134,6 +142,7 @@ public class VistaController implements Initializable {
             apellidoTF.setText(persona.getApellido());
             edadTF.setText(persona.getEdad().toString());
             telefonoTF.setText(persona.getTelefono());
+       
 
             // Pongo los botones en su estado correspondiente
             modificarBT.setDisable(false);
@@ -151,6 +160,7 @@ public class VistaController implements Initializable {
         apellidoCL.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellido"));
         edadCL.setCellValueFactory(new PropertyValueFactory<Persona, Integer>("edad"));
         telefonoCL.setCellValueFactory(new PropertyValueFactory<Persona, String>("telefono"));
+
 
         personas = FXCollections.observableArrayList();
         tablaPersonas.setItems(personas);
@@ -170,14 +180,6 @@ public class VistaController implements Initializable {
         final ObservableList<Persona> tablaPersonaSel = tablaPersonas.getSelectionModel().getSelectedItems();
         tablaPersonaSel.addListener(selectorTablaPersonas);
 
-        // Inicializamos la tabla con algunos datos aleatorios
-        for (int i = 0; i < 20; i++) {
-            Persona p1 = new Persona();
-            p1.nombre.set("Nombre " + i);
-            p1.apellido.set("Apellido " + i);
-            p1.edad.set(20 + i);
-            p1.telefono.set("67589458" + i);
-            personas.add(p1);
-        }
+    
     }
 }
